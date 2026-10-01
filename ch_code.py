@@ -70,7 +70,7 @@ for i in range(1,t):
 
 # #Task 2: Nicholas 
 # #use formulas to find m(t) and F(t) and plot them versus time
-# #free_energy = np.trapz(conc_function + kappa/2)
+# #lalalalalalalala lalalalal
 
 
 
