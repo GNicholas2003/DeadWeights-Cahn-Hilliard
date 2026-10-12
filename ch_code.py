@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 #Task 1: Samuel Simulating concentration profile over a NxN grid
 
+
 N=64 #grid_size
 t=10000 #total_passed_time/steps
 conc_field=np.zeros((t,N,N)) #initialize concentration field
