@@ -59,6 +59,26 @@ def Lap(f,dx):
         4 * f
     ) / (dx**2)
 
+def total_mass(c, dx):
+    return np.sum(c) * dx**2
+
+
+def free_energy(c, dx, kappa):
+    f_bulk = double_well(c)
+
+    dc_dx = (np.roll(c, -1, axis=0) - c) / dx
+    dc_dy = (np.roll(c, -1, axis=1) - c) / dx
+
+    f_interface = 0.5 * kappa * (dc_dx**2 + dc_dy**2)
+
+    return np.sum(f_bulk + f_interface) * dx**2
+
+mass_history = np.zeros(t)
+energy_history = np.zeros(t)
+
+mass_history[0] = total_mass(conc_field[0], grd_spc)
+energy_history[0] = free_energy(conc_field[0], grd_spc, kappa)
+
 
 for i in range(1,t):
     
@@ -67,6 +87,9 @@ for i in range(1,t):
     mu=double_well_der(prev_c)-kappa*Lap(prev_c,grd_spc)#calculate mu(c)
     d_conc_d_t=mobility_coeff*Lap(mu,grd_spc)#calculate dc/dt
     conc_field[i,:,:]=prev_c+(d_conc_d_t*stp_sz)
+    current_c = conc_field[i, :, :]
+    mass_history[i] = total_mass(current_c, grd_spc)
+    energy_history[i] = free_energy(current_c, grd_spc, kappa)
 
     #plot every 500 steps in a graph
     if (i-1)%500==0:
@@ -88,8 +111,50 @@ for i in range(1,t):
                 plt.title(f'Step {i-1}')
                 plt.tight_layout()
                 #plt.savefig(f'Conc_field_step{i-1}-double_well.png')
+"""
+TEST
+print("Initial mass:", mass_history[0])
+print("Final mass:", mass_history[-1])
+print("Maximum mass deviation:",
+      np.max(np.abs(mass_history - mass_history[0])))
 
+print("Initial free energy:", energy_history[0])
+print("Final free energy:", energy_history[-1])
 
+print("All concentrations finite:",
+      np.all(np.isfinite(conc_field)))
+
+print("All mass values finite:",
+      np.all(np.isfinite(mass_history)))
+
+print("All energy values finite:",
+      np.all(np.isfinite(energy_history)))
+
+print("Number of energy increases:",
+      np.sum(np.diff(energy_history) > 1e-10))
+
+time = np.arange(t) * stp_sz
+"""
+
+# Plot total mass
+plt.figure(figsize=(8, 5))
+plt.plot(time, mass_history)
+plt.xlabel("Time")
+plt.ylabel("Total mass m(t)")
+plt.title("Mass conservation")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+# Plot total free energy
+plt.figure(figsize=(8, 5))
+plt.plot(time, energy_history)
+plt.xlabel("Time")
+plt.ylabel("Total free energy F(t)")
+plt.title("Free energy dissipation")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
 
 # #Task 2: Nicholas 
 # #use formulas to find m(t) and F(t) and plot them versus time
