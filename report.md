@@ -1,8 +1,8 @@
 Group report 
 
-# Project title
+# Cahn-Hilliard-Model
 
-Describe the task in your own words, and/or link to the task description. 
+The Cahn–Hilliard-model (after John W. Cahn and John E. Hilliard) is a mathematical model describing the process of phase separation, by which a mixed fluid spontaneously separates to form pure phase regions in each component. 
 
 ## Layout of the algorithm, functions to be created
 
