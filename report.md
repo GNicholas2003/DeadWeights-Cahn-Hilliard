@@ -31,7 +31,7 @@ Summarize, which tests have been successfully passed to test your code.
 
 ## Problems
 
-Keep track of problems and yet unanswered questions so that all group members know where to focus next. 
+None
 
 ## Results (speed tests etc.)
 
