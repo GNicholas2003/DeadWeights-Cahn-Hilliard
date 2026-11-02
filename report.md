@@ -31,7 +31,7 @@ Summarize, which tests have been successfully passed to test your code.
 
 ## Problems
 
-None
+None (according to Samuel)
 
 ## Results (speed tests etc.)
 
